@@ -1,11 +1,7 @@
-import matplotlib.pyplot as plt
-from math import exp
-from numpy import linspace
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+...
+    def __init__(self, parent=None):
+        super(Window, self).__init__(parent)
+        self.figure = plt.figure()
+        self.canvas = FigureCanvas(self.figure)
 
-err = []
-x =  linspace(-5, 0, 1000)
-for i in x:
-    err.append(1/(-4.5 - i) + exp(i))
-
-plt.plot(x, err)
-plt.show()

@@ -34,8 +34,6 @@ class NumericalProcedures():
                 self.breakpoint = i
                 break
 
-
-
     def __repr__(self):
         return 'x0: {}, X: {}, n: {}, y0: {}, h: {}'.format(self.x0, self.X, self.n, self.y0, self.h)
 
@@ -101,14 +99,13 @@ class NumericalProcedures():
             function = self.runge_kutta_method
 
         error = []
-        for i in range(20, 520, 20):
+        for i in range(30, 520, 10):
             self.set_x_axis(i)
             _, data = function()
             _, local_error = self.local_error(data)
             error.append(max(local_error))
 
-        return list(range(20, 520, 20)), error
-
+        return list(range(30, 520, 10)), error
 
 
 class Window(QDialog):
@@ -221,13 +218,15 @@ class Window(QDialog):
         total, = a2.plot(error_x, error, label='Local error', color='r', linewidth=2.5)
         a2.set_xlabel('step', fontsize=15)
         a2.set_ylabel('local error', fontsize=15)
-        a2.text(n / 4.5 , max(error) / 5, 'Total approximation error: {}'.format(round(sum(error) / len(error), 3)), style='italic', bbox={'facecolor':'red', 'alpha':0.5, 'pad':10})
+        a2.text(n / 3.5 , max(error) / 3, 'Average approximation error: {}'.format(round(sum(error) / len(error), 3)), style='italic', bbox={'facecolor':'red', 'alpha':0.5, 'pad':10})
         plt.legend(handles=[total])
 
         # global
         a3 = self.figure.add_subplot(313)
         glob_x, global_error = procedures.global_error(method=method)
         global_err, = a3.plot(glob_x, global_error, label='Global error', color='y', linewidth=2.5)
+        a3.set_xlabel('step', fontsize=15)
+        a3.set_ylabel('global error', fontsize=15)
         plt.legend(handles=[global_err])
 
         self.canvas.draw()
